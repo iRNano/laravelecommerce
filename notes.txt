@@ -1,0 +1,11 @@
+Things to do when pulling a laravel project from git:
+
+1.create .env file at the root directory of your project - duplicate the .env.example file and rename it to .env
+2. set your database credentials in the new .env file
+3. generate a new app key for your .env file via the terminal command:
+	php artisan key:generate
+4. install application dependencies via the terminal command: 
+	composer install
+
+*terminal commands have to be run from the project's root directory
+**don't forget to run your migrations
