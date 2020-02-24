@@ -53,8 +53,11 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category)
-    {
-        //
+    {   
+        //no need to use find($id), as resource already does it for us and is put in $category
+        $products = $category->products;
+        //to get the items related to the category, we use the products property of the category, this only works if there is an established relationship in the model.
+        return view('products.catalog', compact('products'));
     }
 
     /**

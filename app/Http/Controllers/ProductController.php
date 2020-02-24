@@ -13,9 +13,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() //catalog
     {
-        //
+        //get all the products from the database
+        $products = Product::all();
+        return view('products.catalog', compact("products")); //catalog.blade.php in views/products with products that corespond to $products
     }
 
     /**
@@ -45,7 +47,7 @@ class ProductController extends Controller
         $product->category_id = $request->category;
 
         //manage the image upload
-        $image = $request->file('image');
+        $image = $request->file('image'); //follows the name field in the form
         //actual file name when stored in project directory
         //date and time concatenated with a . concatenated with the file extension
         $image_name = time().'.'.$image->getClientOriginalExtension();
@@ -67,8 +69,11 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Product $product)
-    {
-        //
+    {   
+        //Product $product finds the specific product via the ID of the product, the id comes from the url that was specified in the route file.
+        $category = $product->category;
+        
+        return view('products.product', compact("product", "category"));
     }
 
     /**
@@ -79,7 +84,10 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        //use this function to have a view showing the details of the item in a form. (edit.blade.php)
+        //create the form in edit.blade.ph
+        return view('products.edit', compact("product", "categories"));
     }
 
     /**
@@ -91,7 +99,23 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category_id = $request->category;
+        
+        if($request->file('image') == ""){
+            $product->img_path = $product->img_path;
+        }else{
+            $image = $request->file('image');
+            $image_name = time().'.'.$image->getClientOriginalExtension();
+            $destination = "images/";
+            $image->move($destination, $image_name);
+            $product->img_path = $destination.$image_name;
+        }
+
+        $product->save();
+        return redirect("products/".$product->id);
     }
 
     /**
@@ -102,6 +126,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect("/products"); //route back to the catalog
     }
 }
