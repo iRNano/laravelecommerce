@@ -3,6 +3,14 @@
 @section('content')
 
 <h1 class="text-center jumbotron">Catalog</h1>
+<div class="row ml-auto">
+	<div class="col-lg-3 offset-9">
+		<div class="mr-auto">
+			<a href="/products/create" class="btn btn-success">Add Product</a>
+			<a href="/cart" class="btn btn-success">My Cart</a>
+		</div>
+	</div>
+</div>
 <div class="filter pb-5">
 	{{-- Filtering --}}
 	{{-- Add a button for ALL --}}
@@ -13,6 +21,13 @@
 		{{-- This uses the categories route (/categories and needs the show() method of the Category Controller) --}}
 	@endforeach
 
+
+
+</div>
+<div class="row">
+	@if(Session::has('message'))
+		<h4>{{Session::get('message')}}</h4>
+	@endif
 </div>
 <div class="row">
 	@foreach($products as $product)
@@ -26,6 +41,14 @@
 				<p class="card-text">Description: {{$product->description}}</p>
 				<p class="card-text">PHP {{$product->price}}</p>
 				<a href="/products/{{$product->id}}" class="btn btn-info">View Details</a>
+			</div>
+			<div class="card-footer">
+				<form action="/cart" method="POST">
+					@csrf
+					<input type="hidden" name="item_id" value="{{$product->id}}">
+					<input type="number" name="quantity" class="form-control" min="1" value="1">
+					<button type="submit" class="btn btn-success mt-1">Add To Cart</button>	
+				</form>
 			</div>				
 		</div>
 	</div>

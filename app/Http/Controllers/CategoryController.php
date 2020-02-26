@@ -42,6 +42,7 @@ class CategoryController extends Controller
         $category->name = $request->name ;
         //save the newly instantiated oject, doing so will store it as an entry in its corresponding table in the DB
         $category->save();
+        $request->session()->flash('message', "The category " .$request->name . " has been added");
         //and return the products
         return redirect('products/create');
     }

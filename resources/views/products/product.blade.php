@@ -3,7 +3,12 @@
 @section('content')
 
 {{-- Put all the details of the item including the image --}}
+
 	<div class="col-lg-8 mx-auto pt-5" >
+		@if(Session::has('message'))
+			<h4>{{Session::get('message')}}</h4>
+		@endif
+		
 		<div class="card">
 			<h5 class="card-title text-center pt-5">{{$product->name}}</h5>	
 			<img class="img-card-top" src="{{asset($product->img_path)}}" style="max-height: 500px">	

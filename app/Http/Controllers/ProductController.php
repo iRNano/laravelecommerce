@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
+use Session;
 
 class ProductController extends Controller
 {
@@ -59,6 +60,7 @@ class ProductController extends Controller
         $product->img_path = $destination.$image_name;
         //save the product in the database
         $product->save();
+        $request->session()->flash('message', $request->name . " has been added");
         return redirect('products/create');
     }
 
@@ -115,6 +117,7 @@ class ProductController extends Controller
         }
 
         $product->save();
+        $request->session()->flash('message', $request->name . " has been modified");
         return redirect("products/".$product->id);
     }
 
@@ -126,7 +129,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        Session::flash('message', $product->name . " has been removed");
         $product->delete();
+
         return redirect("/products"); //route back to the catalog
     }
 }

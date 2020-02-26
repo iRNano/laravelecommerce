@@ -1,7 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-
+	<div class="row">
+		@if(Session::has('message'))
+			<h4>{{Session::get('message')}}</h4>
+		@endif
+	</div>
+	<div class="row">
+		<a href="/products" class="btn btn-success ml-auto">Back to Catalog</a>
+	</div>
 	<div class="row">
 		<div class="col-lg-8 offset-lg-2">
 			<form method="POST" action="/categories">

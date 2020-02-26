@@ -20,3 +20,6 @@ Route::resource('categories', 'CategoryController');
 Route::resource('products', 'ProductController');
 Route::resource('statuses', 'StatusController');
 Route::resource('orders', 'OrderController');
+Route::delete('/cart/empty', 'CartController@emptyCart');
+// Route::delete('/cart/removeitem', 'CartController@deleteItemCart');
+Route::resource('cart', 'CartController');
