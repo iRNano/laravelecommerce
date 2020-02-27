@@ -17,9 +17,18 @@
 
 
 Route::resource('categories', 'CategoryController');
-Route::resource('products', 'ProductController');
+//separate the resource into two, wherein the first one uses the middleware and the second won't use the middleware.
+Route::resource('products', 'ProductController',
+	["except" => ['show', 'index']])->middleware('isAdmin');
+//The routes in this resource except for show and index will use the isAdmin middleware
+Route::resource('products', 'ProductController',
+	["only" => ['show', 'index']]
+); //Use show and index routes only for this resource without a middleware
 Route::resource('statuses', 'StatusController');
 Route::resource('orders', 'OrderController');
-Route::delete('/cart/empty', 'CartController@emptyCart');
-// Route::delete('/cart/removeitem', 'CartController@deleteItemCart');
+Route::delete('/cart/empty', 'CartController@emptyCart'); //route to empty cart
+Route::get('/cart/confirm', 'CartController@confirmOrder'); //route to confirm the order after checkout
 Route::resource('cart', 'CartController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

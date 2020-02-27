@@ -40,16 +40,19 @@
 			<div class="card-body">				
 				<p class="card-text">Description: {{$product->description}}</p>
 				<p class="card-text">PHP {{$product->price}}</p>
-				<a href="/products/{{$product->id}}" class="btn btn-info">View Details</a>
+				<a href="/products/{{$product->id}}" class="btn btn-info">View Details</a>	
 			</div>
-			<div class="card-footer">
-				<form action="/cart" method="POST">
-					@csrf
-					<input type="hidden" name="item_id" value="{{$product->id}}">
-					<input type="number" name="quantity" class="form-control" min="1" value="1">
-					<button type="submit" class="btn btn-success mt-1">Add To Cart</button>	
-				</form>
-			</div>				
+								
+			@if(!Auth::check() || !Auth::user()->isAdmin)
+				<div class="card-footer">					
+					<form action="/cart" method="POST">
+						@csrf
+						<input type="hidden" name="item_id" value="{{$product->id}}">
+						<input type="number" name="quantity" class="form-control" min="1" value="1">
+						<button type="submit" class="btn btn-success mt-1">Add To Cart</button>	
+					</form>				
+				</div>				
+			@endif
 		</div>
 	</div>
 	@endforeach

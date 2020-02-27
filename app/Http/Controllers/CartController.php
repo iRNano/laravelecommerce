@@ -6,6 +6,7 @@ use App\Cart;
 use Illuminate\Http\Request;
 use Session;
 use App\Product;
+use Auth;
 
 class CartController extends Controller
 {
@@ -91,7 +92,9 @@ class CartController extends Controller
             // dd(Session::get("cart"));
         }
 
-        
+        // if(intval($cart[$id]) > 0){
+        //     $cart[$id] = intval($cart[$id]) + intval($request->quantity);
+        // }else{
         $cart[$request->item_id] = $request->quantity; //update the cart
         // dd($request->session()->get('cart'));
         $request->session()->put('cart', $cart);
@@ -108,7 +111,7 @@ class CartController extends Controller
      * @param  \App\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function show(Cart $cart)
+    public function show()
     {
         
     }
@@ -119,7 +122,7 @@ class CartController extends Controller
      * @param  \App\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function edit(Cart $cart)
+    public function edit()
     {
         //
     }
@@ -134,7 +137,7 @@ class CartController extends Controller
     public function update(Request $request, $id)
     {
         $cart = Session::get('cart');
-        $cart[$id] = $request->quantity;
+        $cart[$id] = $request->quantity;  
         Session::put("cart", $cart);
         // $updatedItems = Session::get('cart');
         // dd($updatedItems);
@@ -165,15 +168,28 @@ class CartController extends Controller
         return redirect('/cart');
     }
 
-    // public function deleteItemCart(Request $product_id)
-    // {
-    //     $products = Session::get('cart');
-    //     dd($products);
-    //     // foreach($products as $product){
-    //     //     if($product->id == $product_id){
-    //     //         unset($products[$product->id]);
-    //     //     }
-    //     // }
-    //     // Session::put('cart');
-    // }
+    public function confirmOrder(){
+        //Check if the user is logged in
+        //if the user is logged in, get the cart again, recalculate the subtotal and total, and it to a view called orders.confirm
+        //if the user is not logged in, redirect the user to the login page.
+        if(Auth::check()){
+            $details_of_items_in_cart = [];
+            $total = 0;
+            if(Session::exists('cart') || !is_null(Session::get('cart'))){
+                foreach(Session::get('cart') as $item_id => $quantity){
+                    $product = Product::find($item_id);
+                    $product->quantity = $quantity;
+                    $product->subtotal = $product->price * $product->quantity;
+                    $total += $product->subtotal;
+
+                    array_push($details_of_items_in_cart, $product);
+                }
+
+                return view('orders.confirm', compact('details_of_items_in_cart', 'total'));
+            }
+
+        }else{
+            return redirect('/login');
+        }
+    }
 }

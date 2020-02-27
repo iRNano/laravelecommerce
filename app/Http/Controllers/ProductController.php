@@ -6,6 +6,7 @@ use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
 use Session;
+use Auth;
 
 class ProductController extends Controller
 {

@@ -19,15 +19,17 @@
 			<p class="card-text">{{$product->category->name}}</p>
 			
 			</div>
-			<div class="card-footer mx-auto" style="display: flex">
-				<a href="/products/{{$product->id}}/edit" class="btn btn-warning">Edit</a>
-				<form method="POST" action="/products/{{$product->id}}">
-					@csrf
-					{{method_field('DELETE')}}
-					{{-- POST and GET are the HTTP verbs that are supported by method, we override it to become DELETE --}}
-					<button type="submit" class="btn btn-danger">Delete</button>
-				</form>
-			</div>
+			@if(Auth::check() && Auth::user()->isAdmin)
+				<div class="card-footer mx-auto" style="display: flex">
+					<a href="/products/{{$product->id}}/edit" class="btn btn-warning">Edit</a>
+					<form method="POST" action="/products/{{$product->id}}">
+						@csrf
+						{{method_field('DELETE')}}
+						{{-- POST and GET are the HTTP verbs that are supported by method, we override it to become DELETE --}}
+						<button type="submit" class="btn btn-danger">Delete</button>
+					</form>
+				</div>
+			@endif
 		</div>
 	</div>
 

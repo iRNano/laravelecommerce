@@ -9,3 +9,55 @@ Things to do when pulling a laravel project from git:
 
 *terminal commands have to be run from the project's root directory
 **don't forget to run your migrations
+------
+
+Checkout
+View Order
+Change order status
+Authorization
+
+User login/registration
+1. Setup the UI
+	a. require laravel's ui -> composer require laravel/ui
+	b. check if the following files are in the public folder or is CDN'd in the app.blade.php
+		bootstrap.min.css
+		jquery
+		popper
+		bootstrap.min.js
+	c. create the user scaffolding -> php artisan ui:auth
+
+
+Note:
+Blade has two special checks if the user is logged in or not
+@guest -- checks if the user IS NOT logged in
+@else 
+@endguest
+
+@auth -- checks if the user IS logged in
+@else
+@endauth
+
+Note:
+Auth::user() -> session for the user
+
+Checkout:
+1. Create a new route for the confirm order
+2. Create controller function that checks if the user logged in and if the user is logged in, proceed to getting the data from the card and set it to a new view
+3. Create a view that contains a table for the summary of the order.
+	name, description, price, qty, subtotal, total.
+4. Add a button to confirm the order
+*** Setup ***
+Use php tinker to create  entries for the statuses table
+php tinker -> allows php scripts to be run without the need for a server
+recall product
+$product = new Product;
+$product->name = "value";
+...
+$product->save();
+
+
+5. Create a new order
+6. Populate the products_orders table
+	a. check if there is a relationship from order to Product model (Many to many) -> 	belongsToMany
+
+Middleware -> handles the flow of the resources, it would be able to allow or restrict access to the resource depending on the condition
