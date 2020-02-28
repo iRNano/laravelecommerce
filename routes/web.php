@@ -15,7 +15,7 @@
 //     return view('welcome');
 // });
 
-
+Route::get('/','ProductController@index');
 Route::resource('categories', 'CategoryController');
 //separate the resource into two, wherein the first one uses the middleware and the second won't use the middleware.
 Route::resource('products', 'ProductController',

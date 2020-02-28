@@ -61,3 +61,43 @@ $product->save();
 	a. check if there is a relationship from order to Product model (Many to many) -> 	belongsToMany
 
 Middleware -> handles the flow of the resources, it would be able to allow or restrict access to the resource depending on the condition
+
+----
+Remote mysql
+Created!
+You have successfully created a new database. The details are below.
+
+Username: yHanpYPEmU
+
+Database name: yHanpYPEmU
+
+Password: Q1fFJWSeQk
+
+Server: remotemysql.com
+
+Port: 3306
+
+These are the username and password to log in to your database and phpMyAdmin
+
+----
+
+amend database.php for remote
+-----
+asset management
+-CRUD features
+-chart view
+-asset tracking
+-dashboard
+-export
+
+-add fields:
+Asset type
+
+
+tables 
+hardware assets(id, name, brand, model, serial number, category_id, warranty_id, id)
+software assets(id, name, platform, license type, no. of user license)
+warranty (id, purchase date, warranty)
+asset type(id, name)
+statuses (id, name)
+departments (id, name)
