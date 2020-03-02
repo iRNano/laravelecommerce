@@ -18,7 +18,9 @@ class ProductController extends Controller
     public function index() //catalog
     {
         //get all the products from the database
-        $products = Product::all();
+        // $products = Product::all();
+        $products = Product::withTrashed()->get();
+        //Gets alll the products even those soft deleted
         return view('products.catalog', compact("products")); //catalog.blade.php in views/products with products that corespond to $products
     }
 
@@ -71,9 +73,12 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {   
         //Product $product finds the specific product via the ID of the product, the id comes from the url that was specified in the route file.
+        
+        $product = Product::withTrashed()->where('id', $id)->first();
+        // dd($product);
         $category = $product->category;
         
         return view('products.product', compact("product", "category"));
@@ -134,5 +139,13 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect("/products"); //route back to the catalog
+    }
+
+    public function restore($id){
+        
+        $product = Product::withTrashed()->where('id', $id)->first();
+
+        $product->restore();
+        return redirect('/products');
     }
 }

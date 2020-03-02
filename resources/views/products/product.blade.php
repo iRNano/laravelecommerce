@@ -8,7 +8,9 @@
 		@if(Session::has('message'))
 			<h4>{{Session::get('message')}}</h4>
 		@endif
-		
+		@if($product->trashed())
+			<a href="/products/{{$product->id}}/restore" class="btn btn-success">Restore Trashed Item</a>
+		@else
 		<div class="card">
 			<h5 class="card-title text-center pt-5">{{$product->name}}</h5>	
 			<img class="img-card-top" src="{{asset($product->img_path)}}" style="max-height: 500px">	
@@ -31,6 +33,7 @@
 				</div>
 			@endif
 		</div>
+		@endif
 	</div>
 
 

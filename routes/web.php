@@ -18,6 +18,7 @@
 Route::get('/','ProductController@index');
 Route::resource('categories', 'CategoryController');
 //separate the resource into two, wherein the first one uses the middleware and the second won't use the middleware.
+Route::get('/products/{id}/restore', 'ProductController@restore');
 Route::resource('products', 'ProductController',
 	["except" => ['show', 'index']])->middleware('isAdmin');
 //The routes in this resource except for show and index will use the isAdmin middleware
