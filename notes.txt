@@ -101,3 +101,6 @@ warranty (id, purchase date, warranty)
 asset type(id, name)
 statuses (id, name)
 departments (id, name)
+
+-----------------
+
